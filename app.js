@@ -87,3 +87,9 @@ const handleSearch = async () => {
 };
 
 document.getElementById('searchButton').addEventListener('click', handleSearch);
+document.getElementById('quoteInput').addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        handleSearch(); // Trigger the search function
+    }
+});
+
