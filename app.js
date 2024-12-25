@@ -70,7 +70,7 @@ const searchBooks = async (query, genre, sort, language) => {
         const filteredBooks = (data.items || []).filter(book => {
             const publishedDate = book.volumeInfo.publishedDate || '';
             const year = parseInt(publishedDate.split('-')[0]); // Extract year from date
-            return year && year >= (currentYear - 10); // Only include books within 10 years
+            return year && year >= (currentYear - 15); // Only include books within 10 years
         });
 
         console.log(`Filtered Books (Last 10 Years): ${filteredBooks.length}`); // Log filtered books
