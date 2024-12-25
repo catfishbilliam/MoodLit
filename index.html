@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoodLit - Book Recommendations</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Cedarville+Cursive&family=Fascinate&family=Inter:ital,opsz,wght@0,14..32,700;1,14..32,700&family=Lunasima:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Quote Container -->
+    <div id="quote-container">
+      <h1>MoodLit</h1>
+      <textarea id="quoteInput" placeholder="Enter a quote or feeling..."></textarea>
+      
+      <!-- Dropdowns -->
+      <select id="genre">
+        <option value="">Any Genre</option>
+        <option value="fiction">Fiction</option>
+        <option value="non-fiction">Non-Fiction</option>
+        <option value="romance">Romance</option>
+        <option value="mystery">Mystery</option>
+        <option value="fantasy">Fantasy</option>
+        <option value="history">History</option>
+        <option value="science-fiction">Science Fiction</option>
+        <option value="biography">Biography</option>
+        <option value="self-help">Self-Help</option>
+        <option value="poetry">Poetry</option>
+      </select>
+      <select id="sort">
+        <option value="relevance">Relevance</option>
+        <option value="newest">Newest</option>
+        <option value="nyt">Best Seller</option>
+      </select>
+      <button id="searchButton">Search</button>
+    </div>
+
+    <!-- Results -->
+    <div id="results-container">
+      <div id="results-wrapper">
+        <div id="results"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal-overlay" class="modal-overlay"></div>
+  <div id="modal" class="modal"></div>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+
+  <!-- GSAP Animation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.from("#quote-container", {
+            duration: 1.5,         // Animation duration
+            y: -50,               // Start slightly above its position
+            opacity: 0,           // Start transparent
+            ease: "power2.out",   // Smooth easing
+            scale: 0.8,           // Zoom effect
+            rotation: -10         // Slight tilt
+        });
+
+        gsap.to("#quote-container", {
+            duration: 2,          // Glow effect duration
+            boxShadow: "0 0 20px #a4c4f7, 0 0 40px #6ba6d6", // Moon-like glow
+            repeat: -1,           // Infinite glow effect
+            yoyo: true,           // Reverses the glow effect
+            ease: "sine.inOut"    // Smooth transition
+        });
+    });
+  </script>
+</body>
+</html>
