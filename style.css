@@ -193,31 +193,30 @@ button:hover {
     background-color: black;
 }
 
-/* Tablets and Small Screens */
+/* General Mobile Optimization */
 @media (max-width: 768px) {
     body {
-        padding: 15px;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
+        background-size: cover;
+        background-position: center;
     }
 
     #quote-container {
-        padding: 20px; /* Add more padding for breathing room */
+        padding: 20px;
         margin: 15px auto;
-        width: 95%; /* Increase width slightly for better use of space */
-        max-width: 500px; /* Limit max width to keep things centered */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
-        border-radius: 8px; /* Rounded corners for a modern look */
+        width: 95%;
+        max-width: 800px; /* Align with desktop width */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
     }
 
     h1 {
-        font-size: 34px; /* Scale header font size down slightly */
-        margin-bottom: 10px;
+        font-size: 36px; /* Slightly smaller header */
+        margin-bottom: 15px;
     }
 
     #results-container {
@@ -230,84 +229,86 @@ button:hover {
 
     #results {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Dynamic columns */
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Flexible columns */
         gap: 15px;
         width: 100%;
         padding: 10px;
     }
 
+    .book {
+        padding: 10px;
+        border-radius: 8px;
+    }
+
     .book img {
         max-width: 120px;
+        margin-bottom: 10px;
     }
 
     button, select, textarea {
-        width: 100%; /* Full-width inputs for mobile */
-        margin-bottom: 10px; /* Add spacing between controls */
+        width: 100%;
+        margin-bottom: 10px;
     }
 }
 
-/* Mobile Phones */
+/* Phones and Smaller Devices */
 @media (max-width: 480px) {
     body {
-        padding: 20px;
+        padding: 15px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
+        background-size: cover;
+        background-position: center;
     }
 
     #quote-container {
-        padding: 15px; /* Add padding for readability */
-        margin: 10px auto; /* Add spacing to prevent edge crowding */
-        width: 95%; /* Use most of the screen width */
-        max-width: 400px; /* Prevent excessive stretching */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Modern shadow effect */
+        padding: 15px;
+        margin: 10px auto;
+        width: 95%;
+        max-width: 400px; /* Matches desktop shape */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
     }
 
     h1 {
-        font-size: 26px; /* Smaller font size for mobile headers */
-        text-align: center;
+        font-size: 28px;
         margin-bottom: 10px;
+        text-align: center;
     }
 
     #results-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
         width: 100%;
+        padding: 10px;
+        margin-top: 15px;
     }
 
     #results {
         display: grid;
-        grid-template-columns: 1fr; /* Single column for readability */
-        gap: 15px; /* Add spacing between items */
-        width: 100%; /* Prevent cutoff */
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Flexible columns */
+        gap: 10px;
+        width: 100%;
         padding: 10px;
     }
 
     .book {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        padding: 10px;
+        border-radius: 8px;
     }
 
     .book img {
         max-width: 100px;
+        margin-bottom: 10px;
     }
 
     button, select, textarea {
-        width: 100%; /* Full-width inputs for better usability */
-        margin-bottom: 10px; /* Spacing between controls */
+        width: 100%; /* Full-width inputs */
+        margin-bottom: 10px;
     }
 
     textarea {
-        min-height: 80px; /* Make text input larger for easier typing */
+        min-height: 80px; /* Easier typing */
     }
 }
 
