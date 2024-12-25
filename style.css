@@ -193,24 +193,43 @@ button:hover {
     background-color: black;
 }
 
-/* Media Queries */
+/* Tablets and Small Screens */
 @media (max-width: 768px) {
     body {
         padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start; /* Ensures proper stacking */
     }
 
     #quote-container {
         padding: 15px;
         margin: 15px auto;
+        display: flex;
+        flex-direction: column; /* Stack elements inside */
+        align-items: center; /* Center content */
+        width: 90%; /* Prevents cutting off on smaller screens */
     }
 
     h1 {
         font-size: 36px;
     }
 
+    #results-container {
+        display: flex;
+        flex-direction: column; /* Stack results */
+        align-items: center;
+        width: 100%;
+        padding: 15px;
+    }
+
     #results {
-        grid-template-columns: repeat(2, 1fr);
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablet view */
         gap: 15px;
+        width: 100%;
+        padding: 10px;
     }
 
     .book img {
@@ -218,28 +237,59 @@ button:hover {
     }
 }
 
+/* Mobile Phones */
 @media (max-width: 480px) {
     body {
         padding: 10px;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start; /* Stack elements vertically */
     }
 
     #quote-container {
         padding: 10px;
-        margin: 10px auto;
+        margin: 20px auto;
+        width: 100%; /* Full width to prevent cutoff */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     h1 {
         font-size: 28px;
     }
 
+    #results-container {
+        display: flex;
+        flex-direction: column; /* Stack results vertically */
+        align-items: center;
+        padding: 10px;
+        width: 100%;
+    }
+
     #results {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: 1fr; /* Single column for mobile */
         gap: 10px;
+        width: 100%; /* Prevent cutoff */
+        padding: 10px;
+    }
+
+    .book {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .book img {
         max-width: 100px;
     }
+
+    button, select, textarea {
+        width: 100%; /* Full-width inputs for mobile */
+        margin-bottom: 10px; /* Add spacing between controls */
+    }
 }
+
