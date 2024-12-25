@@ -1,11 +1,25 @@
 const API_KEY = 'AIzaSyCkFdrDb2GAryNOrQT6s3kEyioQfvtQkVk';
 
 // Search Books Function
-const searchBooks = async (query) => {
+const searchBooks = async (query, genre, sort) => {
     try {
-        const response = await fetch(
-            `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&key=${API_KEY}`
-        );
+        let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`;
+
+        // Apply Genre Filter
+        if (genre) {
+            url += `+subject:${encodeURIComponent(genre)}`;
+        }
+
+        // Apply Sorting
+        if (sort === 'newest') {
+            url += '&orderBy=newest';
+        }
+
+        if (sort === 'relevance') {
+            url += '&orderBy=relevance';
+        }
+
+        const response = await fetch(`${url}&key=${API_KEY}`);
         if (!response.ok) throw new Error('Failed to fetch data');
         const data = await response.json();
         return data.items || [];
@@ -77,15 +91,23 @@ const closeModal = () => {
 
 // Handle Search
 const handleSearch = async () => {
-    const query = document.getElementById('quoteInput').value;
-    if (!query.trim()) {
+    const query = document.getElementById('quoteInput').value.trim();
+    const genre = document.getElementById('genre').value;
+    const sort = document.getElementById('sort').value;
+
+    if (!query) {
         alert('Please enter a quote or description!');
         return;
     }
-    const books = await searchBooks(query);
+
+    const books = await searchBooks(query, genre, sort);
     displayBooks(books);
+
+    // Smooth Scroll to Results
+    document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
 };
 
+// Event Listeners
 document.getElementById('searchButton').addEventListener('click', handleSearch);
 document.getElementById('quoteInput').addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
@@ -93,3 +115,6 @@ document.getElementById('quoteInput').addEventListener('keypress', (event) => {
     }
 });
 
+// Filter Change Listeners
+document.getElementById('genre').addEventListener('change', handleSearch);
+document.getElementById('sort').addEventListener('change', handleSearch);
