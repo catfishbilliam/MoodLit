@@ -1,6 +1,6 @@
-const API_KEY = import.meta.env.VITE_BOOKS_API; // Use Vite's env system
-
+const API_KEY = import.meta.env.VITE_BOOKS_API; // Only use Vite's built-in env
 console.log('API Key:', API_KEY); // Debugging - Log the API Key
+
 
 
 // Analyze Input with Compromise.js for Emotion and Themes
@@ -82,7 +82,24 @@ const displayBooks = (books) => {
 
     console.log('Displaying books:', books); // Log all books being displayed
 
-    books.slice(0, 25).forEach((book, index) => {
+    const currentYear = new Date().getFullYear(); // Get the current year
+    const maxYear = currentYear - 15; // Calculate cutoff year (15 years ago)
+
+    // Filter books to include:
+    // 1. Books with a valid date within the last 15 years.
+    // 2. Books without a valid `publishedDate` (undated).
+    const filteredBooks = books.filter((book) => {
+        const publishedDate = book.volumeInfo.publishedDate || ''; // Handle missing dates
+        const publishedYear = parseInt(publishedDate.substring(0, 4)); // Extract year
+
+        // Allow books published within the last 15 years or books without a valid date
+        return !isNaN(publishedYear) ? publishedYear >= maxYear : true;
+    });
+
+    console.log('Filtered Books (Last 15 years or undated):', filteredBooks); // Log filtered books
+
+    // Display filtered books
+    filteredBooks.slice(0, 25).forEach((book, index) => {
         const bookInfo = book.volumeInfo;
         const thumbnail = bookInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x192?text=No+Cover';
         const title = bookInfo.title || 'No Title';
@@ -114,7 +131,14 @@ const displayBooks = (books) => {
 
         resultsContainer.appendChild(bookElement);
     });
+
+    // Fallback message if no books match
+    if (filteredBooks.length === 0) {
+        console.log('No books published within the last 15 years or undated matched the query.');
+        resultsContainer.innerHTML = `<p>No recent books found matching your query.</p>`;
+    }
 };
+
 
 // Open Modal
 const openModal = (title, author, date, description, link) => {
