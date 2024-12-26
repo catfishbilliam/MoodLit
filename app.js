@@ -1,13 +1,48 @@
-const API_KEY = 'BOOKS_API'; // Updated API key variable
+const API_KEY = 'AIzaSyCkFdrDb2GAryNOrQT6s3kEyioQfvtQkVk';
+
+// Analyze Input with Compromise.js for Emotion and Themes
+const analyzeInput = (input) => {
+    console.log('Original Input:', input); // Log the raw input
+
+    const doc = nlp(input); // Process input using Compromise.js
+
+    // Extract nouns for themes
+    const themes = doc.nouns().out('array'); 
+    console.log('Extracted Themes (Nouns):', themes); // Log extracted themes (nouns)
+
+    // Detect emotions based on adjectives
+    const emotions = doc.adjectives().out('array');
+    console.log('Extracted Emotions (Adjectives):', emotions); // Log extracted emotions (adjectives)
+
+    // Combine themes and emotions into one query string
+    let query = themes.join(' '); // Start with themes
+
+    if (emotions.length > 0) {
+        query += ` ${emotions.join(' ')}`; // Append emotions
+    }
+
+    console.log('Final Processed Query:', query.trim() || input); // Log the final query
+
+    return query.trim() || input; // Fallback to the original input
+};
 
 // Search Books Function
-const searchBooks = async (query, genre, sort) => {
+const searchBooks = async (query, genre, sort, language) => {
     try {
+        // Construct URL with processed query
         let url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`;
 
-        // Apply Genre Filter
+        // Add Genre Filter
         if (genre) {
             url += `+subject:${encodeURIComponent(genre)}`;
+        }
+
+        // Filter for Books Only
+        url += '&printType=books';
+
+        // Language Filter
+        if (language) {
+            url += `&langRestrict=${language}`;
         }
 
         // Apply Sorting
@@ -17,11 +52,19 @@ const searchBooks = async (query, genre, sort) => {
             url += '&orderBy=relevance';
         }
 
+        // API Key and Limits
+        url += '&maxResults=20';
         url += `&key=${API_KEY}`;
 
+        console.log('Fetching books from URL:', url); // Log API URL
+
+        // Fetch Data
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch data');
+
         const data = await response.json();
+        console.log('Books API Response:', data); // Log full API response
+
         return data.items || [];
     } catch (error) {
         console.error('Error fetching books:', error);
@@ -34,7 +77,9 @@ const displayBooks = (books) => {
     const resultsContainer = document.getElementById('results');
     resultsContainer.innerHTML = '';
 
-    books.slice(0, 10).forEach((book, index) => {
+    console.log('Displaying books:', books); // Log all books being displayed
+
+    books.slice(0, 25).forEach((book, index) => {
         const bookInfo = book.volumeInfo;
         const thumbnail = bookInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x192?text=No+Cover';
         const title = bookInfo.title || 'No Title';
@@ -43,6 +88,15 @@ const displayBooks = (books) => {
         const publishedDate = bookInfo.publishedDate || 'Unknown';
         const infoLink = bookInfo.infoLink || '#';
 
+        console.log(`Book ${index + 1}:`, {
+            title,
+            author,
+            description,
+            publishedDate,
+            infoLink,
+        }); // Log each book's details
+
+        // Create Book Card
         const bookElement = document.createElement('div');
         bookElement.classList.add('book');
         bookElement.innerHTML = `
@@ -50,22 +104,12 @@ const displayBooks = (books) => {
             <h3>${title}</h3>
         `;
 
-        // Add Click Event to Open Modal
+        // Open Modal Event
         bookElement.addEventListener('click', () => {
             openModal(title, author, publishedDate, description, infoLink);
         });
 
         resultsContainer.appendChild(bookElement);
-
-        // GSAP Animation for Book Cards
-        gsap.from(bookElement, {
-            duration: 0.8,
-            opacity: 0,
-            scale: 0.5,
-            y: 30,
-            delay: index * 0.1,
-            ease: "power2.out"
-        });
     });
 };
 
@@ -88,18 +132,17 @@ const openModal = (title, author, date, description, link) => {
     modal.style.display = 'block';
     modalOverlay.style.display = 'block';
 
-    // Close Modal
-    document.getElementById('modal-close').addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', closeModal);
+    console.log('Modal Opened:', { title, author, date, description });
 };
 
 // Close Modal
 const closeModal = () => {
     document.getElementById('modal').style.display = 'none';
     document.getElementById('modal-overlay').style.display = 'none';
+    console.log('Modal Closed');
 };
 
-// Handle Search with NLP.js
+// Handle Search Function
 const handleSearch = async () => {
     const query = document.getElementById('quoteInput').value.trim();
     const genre = document.getElementById('genre').value;
@@ -110,10 +153,15 @@ const handleSearch = async () => {
         return;
     }
 
-    const books = await searchBooks(query, genre, sort);
+    // Analyze input using NLP (Compromise.js)
+    const processedQuery = analyzeInput(query); // Apply NLP analysis
+
+    console.log('Search Triggered:', { query, processedQuery, genre, sort });
+
+    const books = await searchBooks(processedQuery, genre, sort);
     displayBooks(books);
 
-    // Smooth scroll to results
+    // Smooth Scroll to Results
     document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
 };
 
@@ -121,7 +169,7 @@ const handleSearch = async () => {
 document.getElementById('searchButton').addEventListener('click', handleSearch);
 document.getElementById('quoteInput').addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
-        handleSearch(); // Trigger search
+        handleSearch();
     }
 });
 
