@@ -1,4 +1,7 @@
-const API_KEY = import.meta.env.VITE_BOOKS_API; // Use environment variable
+const API_KEY = import.meta.env.VITE_BOOKS_API; // Use Vite's env system
+
+console.log('API Key:', API_KEY); // Debugging - Log the API Key
+
 
 // Analyze Input with Compromise.js for Emotion and Themes
 const analyzeInput = (input) => {
