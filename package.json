@@ -10,7 +10,7 @@
     },
     "dependencies": {
       "vite": "^4.0.0",
-      "vite-plugin-env-compatible": "^0.4.1"
+      "vite-plugin-env-compatible": "^2.0.1"
     },
     "devDependencies": {},
     "keywords": [],
