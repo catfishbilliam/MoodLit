@@ -141,6 +141,7 @@ const displayBooks = (books) => {
 
 
 // Open Modal
+// Open Modal
 const openModal = (title, author, date, description, link) => {
     const modal = document.getElementById('modal');
     const modalOverlay = document.getElementById('modal-overlay');
@@ -156,11 +157,17 @@ const openModal = (title, author, date, description, link) => {
         </div>
     `;
 
+    // Display modal and overlay
     modal.style.display = 'block';
     modalOverlay.style.display = 'block';
 
+    // **Attach event listener to close button**
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', closeModal); // Close modal when clicking outside it
+
     console.log('Modal Opened:', { title, author, date, description });
 };
+
 
 // Close Modal
 const closeModal = () => {
