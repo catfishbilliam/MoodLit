@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyCkFdrDb2GAryNOrQT6s3kEyioQfvtQkVk';
+const API_KEY = import.meta.env.VITE_BOOKS_API; // Use environment variable
 
 // Analyze Input with Compromise.js for Emotion and Themes
 const analyzeInput = (input) => {
